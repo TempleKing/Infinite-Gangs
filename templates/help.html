@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生互助平台</title>
+    <!-- ===========  All Stylesheet ================= -->
+	<!--  fontawesome css plugins -->
+    <link rel="stylesheet" href="../static/css/fontawesome.min.css">
+    <!--  animate css plugins -->
+    <link rel="stylesheet" href="../static/css/animate.css">
+    <!--  magnific-popup css plugins -->
+    <link rel="stylesheet" href="../static/css/magnific-popup.css">
+    <!--  owl carosuel css plugins -->
+    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+    <!-- metisMenu css file -->
+    <link rel="stylesheet" href="../static/css/metismenu.css">
+    <!-- progresscircle css file -->
+    <link rel="stylesheet" href="../static/css/progresscircle.css">
+    <!--  owl theme css plugins -->
+    <link rel="stylesheet" href="../static/css/owl.theme.css">
+    <!--  Bootstrap css plugins -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <!--  main style css file -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- template main style css file -->
+    <link rel="stylesheet" href="../static/css/style_1.css">
+</head>
+<body>
+<header class="header-section header-style-1">
+{% if message %}
+<div class="alert alert-info">{{ message }}</div>
+{% endif %}
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-6">
+                    <div class="logo">
+                        <a href="#">无限帮</a>
+                    </div>
+                </div>
+                <div class="col-lg-8 offset-lg-2 d-none d-lg-block text-right">
+                    <div class="main-menu">
+                        <ul>
+                            <li><a href="{{ url_for('home_page') }}">主页</a></li>
+                            <li><a href="{{ url_for('find_order_info') }}">订单信息</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 d-block d-lg-none">
+                    <div class="menu-toggle text-right">
+                        <div id="hamburger">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <!-- mobile menu - responisve menu  -->
+                    <div class="mobile-nav">
+                        <button type="button" class="close-nav">
+                            <i class="fal fa-times-circle"></i>
+                        </button>
+                        <nav class="sidebar-nav">
+                            <ul class="metismenu" id="mobile-menu">
+                                <li>
+                                    <a href="{{ url_for('home_page') }}">主页</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('user_page') }}">用户信息</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="hero-section hero-1">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 col-sm-12 text-center text-lg-left">
+                    <div class="hero-content overflow-hidden">
+                        <span class="hello-tooltip wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".5s">欢迎来到学生二手交易平台</span>
+                        <h1 class="wow fadeInLeft" data-wow-duration="1.3s" data-wow-delay=".9s"> 购置心仪的物品，寻找丢失物品</h1>
+                        <a href="#lost" class="theme-btn wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="1.9s">失物招领</a>
+                        <a href="#second" class="theme-btn wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="1.9s">二手物品购买</a>
+					</div>
+                </div>
+                <div class="col-lg-6 offset-lg-1 col-sm-12 text-center overflow-hidden">
+                    <div class="hero-profile-img wow fadeInUp" data-wow-duration="2s" data-wow-delay=".9s">
+                        <img src="../static/assets/images/1111.jpg" alt="二手交易" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><hr/>
+
+    <section class="blog-section section-padding" id="blog">
+       <div class="container">
+         <div class="row">
+            <div class="col-12 text-center col-lg-10 offset-lg-1">
+                <div class="section-title-one">
+                    <span><a id="lost">遗失物品</a></span>
+                    <h2>寻找遗失物品，有同学收集整理.</h2>
+                </div>
+            </div>
+         </div>
+             <div class="row grid p-0">
+            {% for lost_item in lost_items %}
+            <div class="col-lg-4 col-md-6 col-12 grid-item">
+                <div class="single-portfolio-item">
+                    <a href="{{ lost_item.image_path }}" class="popup-gallery">
+                        <img class="img-fluid" src="{{ lost_item.image_path }}" alt="">
+                        <span class="zoom-icon"><i class="fa fa-search"></i></span>
+                     </a>
+                        <div class="post-date">物品名称：{{ lost_item.name }}</div>
+                        <h3>物品描述：{{ lost_item.info }}</h3>
+                </div>
+            </div>
+            {% endfor %}
+             </div>
+    <button class="theme-btn" onclick="openPopup_lost()">上传遗失物品</button>
+            <div id="popup_lost" style="display: none;">
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="contact-form-wraper">
+            <form method="POST" action="{{ url_for('upload_lost_item') }}" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <div class="single-input">
+                            <label for="name">物品名称:</label>
+                            <input type="text" name="name" id="name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="single-input">
+                            <label for="info">物品信息-介绍:</label>
+                            <textarea name="info" id="info" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <label for="image">上传图片:</label>
+                        <input type="file" name="image" id="image" accept="image/*" required><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" value="Submit" class="theme-btn">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        </div>
+       </div>
+    </section>
+
+<section class="blog-section section-padding" id="blog">
+        <div class="container">
+            <div class="row">
+            <div class="col-12 text-center col-lg-10 offset-lg-1">
+                <div class="section-title-one">
+                    <span><a id="second">二手交易</a></span>
+                    <h2>寻找好用便宜的好物品</h2>
+                </div>
+            </div>
+            {% for item in items %}
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="single-blog blog-one">
+                    <div class="featured-img" style="background-image: url('{{ item.image_path }}');"></div>
+                    <div class="blog-content-box">
+                        <div class="post-date">物品名称：{{ item.name }}</div>
+                        <h3>物品描述：{{ item.info }}</h3>
+                        <a href="{{ url_for('chat_page', item_id=item.id, username=username) }}" class="btn btn-primary">进入聊天</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            <button class="theme-btn" onclick="openPopup()">上传物品</button>
+            <div id="popup" style="display: none;">
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="contact-form-wraper">
+            <form method="POST" action="{{ url_for('upload_item') }}" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <div class="single-input">
+                            <label for="name">物品名称:</label>
+                            <input type="text" name="name" id="name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="single-input">
+                            <label for="info">物品信息-介绍:</label>
+                            <textarea name="info" id="info" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <label for="image">上传图片:</label>
+                        <input type="file" name="image" id="image" accept="image/*" required><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" value="Submit" class="theme-btn">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </section>
+<footer class="footer-one text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-7">
+                    Copyright &copy; 2023.Team infinite Help All rights reserved.
+                </div>
+				<div class="col-5">
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
+        function openPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+    </script>
+<script>
+        function openPopup_lost() {
+            document.getElementById("popup_lost").style.display = "block";
+        }
+    </script>
+<script src="static/js/jquery-1.12.4.min.js"></script>
+    <script src="../static/js/modernizr-3.7.1.min.js"></script>
+    <script src="../static/js/jquery.easing.1.3.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/isotope.pkgd.min.js"></script>
+    <script src="../static/js/imageload.min.js"></script>
+    <script src="../static/js/scrollup.min.js"></script>
+    <script src="../static/js/owl.carousel.min.js"></script>
+    <script src="../static/js/magnific-popup.min.js"></script>
+    <script src="../static/js/waypoint.js"></script>
+    <script src="../static/js/counterup.min.js"></script>
+    <script src="../static/js/typed.min.js"></script>
+    <script src="../static/js/metismenu.js"></script>
+    <script src="../static/js/wow.min.js"></script>
+    <script src="../static/js/progresscircle.js"></script>
+    <script src="../static/js/barfiller.js"></script>
+    <script src="../static/js/ajax-mail.js"></script>
+    <script>
+    let typed = new Typed('.profession', {
+        strings: ["Website Developer", "UI/UX Designer"],
+        typeSpeed: 80,
+        loop: true,
+        startDelay: 200,
+        backSpeed: 50,
+    });
+    </script>
+    <script src="../static/js/active.js"></script>
+</body>
+</html>

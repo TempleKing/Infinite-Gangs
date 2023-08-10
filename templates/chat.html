@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交流房</title>
+    <!-- ===========  All Stylesheet ================= -->
+	<!--  fontawesome css plugins -->
+    <link rel="stylesheet" href="../static/css/fontawesome.min.css">
+    <!--  animate css plugins -->
+    <link rel="stylesheet" href="../static/css/animate.css">
+    <!--  magnific-popup css plugins -->
+    <link rel="stylesheet" href="../static/css/magnific-popup.css">
+    <!--  owl carosuel css plugins -->
+    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+    <!-- metisMenu css file -->
+    <link rel="stylesheet" href="../static/css/metismenu.css">
+    <!-- progresscircle css file -->
+    <link rel="stylesheet" href="../static/css/progresscircle.css">
+    <!--  owl theme css plugins -->
+    <link rel="stylesheet" href="../static/css/owl.theme.css">
+    <!--  Bootstrap css plugins -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <!--  main style css file -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- template main style css file -->
+    <link rel="stylesheet" href="../static/css/style_1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="../static/main.550dcf66.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.3.0/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+        window.onload = function() {
+            joinRoom();
+        };
+        function joinRoom() {
+            var username = document.getElementById('username').value;
+            var room = document.getElementById('room').value;
+            socket.emit('join', {username: username, room: room});
+            document.getElementById('roomForm').style.display = 'none';
+            document.getElementById('chat').style.display = 'block';
+        }
+
+        function leaveRoom() {
+            var username = document.getElementById('username').value;
+            var room = document.getElementById('room').value;
+            socket.emit('leave', {username: username, room: room});
+            window.location.href = '/help_page';
+        }
+
+        function sendMessage() {
+            var username = document.getElementById('username').value;
+            var room = document.getElementById('room').value;
+            var message = document.getElementById('message').value;
+            socket.emit('message', {username: username, room: room, message: message});
+            document.getElementById('message').value = '';
+        }
+
+        socket.on('message', function(data) {
+            var messageList = document.getElementById('messageList');
+            var messageItem = document.createElement('li');
+            messageItem.textContent = data;
+            messageItem.classList.add('chat-message');
+            messageList.appendChild(messageItem);
+        });
+    </script>
+<style>
+        #chat {
+            position: relative;
+            width: 75%; /* 调整聊天框的宽度 */
+            height: 75%;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 0 auto; /* 居中 */
+        }
+
+        .chat-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .message-list {
+            flex: 1; /* 占据剩余空间 */
+            margin-right: 10px; /* 调整聊天记录列表和输入框之间的间距 */
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .message-list .chat-message {
+            margin-bottom: 10px;
+        }
+
+        .message-list .chat-message:last-child {
+            margin-bottom: 0;
+        }
+
+        .input-container {
+            flex: 1; /* 占据剩余空间 */
+            display: flex;
+            align-items: center;
+        }
+
+        .input-container input {
+            flex: 1; /* 占据剩余空间 */
+            margin-right: 10px; /* 调整输入框和按钮之间的间距 */
+        }
+    </style>
+
+</head>
+<body>
+<header class="header-section header-style-1">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-6">
+                    <div class="logo">
+                        <a href="#">无限帮</a>
+                    </div>
+                </div>
+                <div class="col-lg-8 offset-lg-2 d-none d-lg-block text-right">
+                    <div class="main-menu">
+                        <ul>
+                            <li><a href="{{ url_for('home_page') }}">主页</a></li>
+                            <li><a href="{{ url_for('find_order_info') }}">订单信息</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 d-block d-lg-none">
+                    <div class="menu-toggle text-right">
+                        <div id="hamburger">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <!-- mobile menu - responisve menu  -->
+                    <div class="mobile-nav">
+                        <button type="button" class="close-nav">
+                            <i class="fal fa-times-circle"></i>
+                        </button>
+                        <nav class="sidebar-nav">
+                            <ul class="metismenu" id="mobile-menu">
+                                <li>
+                                    <a href="{{ url_for('home_page') }}">主页</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('user_page') }}">用户信息</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="roomForm">
+        <input type="text" id="username" placeholder="Username" value="{{ username }}"><br>
+        <input type="text" id="room" placeholder="Room" value="{{ item_id }}"><br>
+        <button onclick="joinRoom()">Join Room</button>
+    </div>
+<div class="content-wrapper">
+        <div id="chat" class="form-group"style="position: fixed; top: 12%; right: 12.5%; background-color: #ffffff;overflow: auto; height: 75%;">
+            <h1 style="text-align: center;">商品交流中...</h1>
+            <div class="chat-container">
+                <ul id="messageList" class="message-list"></ul>
+                <div class="input-container">
+                    <input type="text" class="form-control" id="message" placeholder="Message">
+                    <button class="theme-btn" onclick="sendMessage()">Send</button>
+                    <button class="theme-btn" onclick="leaveRoom()">Leave Room</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<footer class="footer-one text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-7">
+                    Copyright &copy; 2023.Team infinite Help All rights reserved.
+                </div>
+				<div class="col-5">
+                </div>
+            </div>
+        </div>
+</footer>
+<script src="../static/js/jquery-1.12.4.min.js"></script>
+    <script src="../static/js/modernizr-3.7.1.min.js"></script>
+    <script src="../static/js/jquery.easing.1.3.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/isotope.pkgd.min.js"></script>
+    <script src="../static/js/imageload.min.js"></script>
+    <script src="../static/js/scrollup.min.js"></script>
+    <script src="../static/js/owl.carousel.min.js"></script>
+    <script src="../static/js/magnific-popup.min.js"></script>
+    <script src="../static/js/waypoint.js"></script>
+    <script src="../static/js/counterup.min.js"></script>
+    <script src="../static/js/typed.min.js"></script>
+    <script src="../static/js/metismenu.js"></script>
+    <script src="../static/js/wow.min.js"></script>
+    <script src="../static/js/progresscircle.js"></script>
+    <script src="../static/js/barfiller.js"></script>
+    <script src="../static/js/ajax-mail.js"></script>
+    <script>
+    let typed = new Typed('.profession', {
+        strings: ["Website Developer", "UI/UX Designer"],
+        typeSpeed: 80,
+        loop: true,
+        startDelay: 200,
+        backSpeed: 50,
+    });
+    </script>
+    <script src="../static/js/active.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+
+    <link rel="apple-touch-icon" sizes="1x1" href="../static/logo1x1.png">
+    <link href="" rel="stylesheet">
+    <title>主页</title>
+    <link href="../static/main.550dcf66.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+</head>
+<style>
+.btn-fixed {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 999;
+}
+
+.content-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+</style>
+<header>
+      <nav class="navbar navbar-default active">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{ url_for('home_page') }}" title="">
+          校园互助平台
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url_for('home_page') }}" title="">主页</a></li>
+          <li><a href="{{ url_for('find_order_info') }}">订单信息</a></li>
+          <li><a href="{{ url_for('Vol_page') }}">志愿者</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+{% if message %}
+<div class="alert alert-info">{{ message }}</div>
+{% endif %}
+{% if result %}
+<div class="alert alert-info">{{ result }}</div>
+{% endif %}
+{% if order %}
+<div class="alert alert-info">{{ order }}</div>
+{% endif %}
+{% if LMC %}
+<div class="alert alert-info">{{ LMC }}</div>
+{% endif %}
+<body>
+  <div class="hero-full-container background-image-container white-text-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>无限帮</h1>
+          <p>致力于搭建校园互助的平台</p>
+          <br>
+          <a href="#car" class="btn btn-default btn-lg" title="">无人车代送服务</a>&emsp;&emsp;
+            <a href="{{ url_for('help_page') }}" class="btn btn-default btn-lg" title="">学生互助</a>&emsp;&emsp;
+            <a href="#volunteer" class="btn btn-default btn-lg" title="">志愿者招募</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+          <div class="text-center">
+            <h2>宣传专区</h2>
+          </div>
+       </div>
+      </div>
+    </div>
+  </div><hr/>
+
+  <div class="section-container">
+    <div class="container">
+      <div class="row">
+          <div class="col-xs-12">
+            <div id="carousel-example-generic" class="carousel carousel-fade slide" data-ride="carousel">
+                <div lass="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img class="img-responsive" src="../static/assets/images/model.jpg" alt="First slide">
+                        <div class="carousel-caption card-shadow reveal">
+                          <h3>我们的宗旨</h3>
+                          <p>
+                            第一，基于现状调查与实况分析，提出具有针对性的平台建设意见，从大学生最迫切的需求出发,促进大学生交互，带动校园经济发展
+                          </p>
+                          <p>
+                            第二，通过5G技术整合大学生日常生活资源，将用户的实用需求和产品提供的实用价值相结合；构建实体车辆模型，运用到物资交换和派送中；在小范围短时间初步实践后，探究未来互助平台发展方向及优化措施。
+                          </p>
+                            <p>
+                            第三，专注区域化、本地化服务，致力为大学生提供更加快捷、贴心的校园信息咨询、社会交流等校园所需生活服务。让广大学生能够在一个安全健康的环境中学习知识，提升自己。
+                          </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div><hr/>
+
+    <div class="section-container">
+    <div class="container text-center">
+      <div class="row section-container-spacer">
+        <div class="col-xs-12 col-md-12">
+          <h2 class="text-center"><a id="car">预定无人车</a></h2>
+          <p>点击下方按钮，开始定制属于你的无人车服务</p></br>
+            <p align="centre"><a href="{{ url_for('bookcar_page') }}" title=""><button type="submit" class="btn btn-primary">预定</button><a><p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div><hr/>
+<form action="VolInfo" method="POST">
+    <div class="section-container contact-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <div class="section-container-spacer">
+              <h2 class="text-center"><a id="volunteer">加入我们！</a></h2>
+            <p class="text-center">联系我们，成为志愿者，为学园献一份力</p>
+          </div>
+          <div class="card-container">
+            <div class="card card-shadow col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 reveal">
+              <form action="" class="reveal-content">
+                <div class="row">
+                  <div class="col-md-7">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="name" name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="number" name="number" placeholder="手机号">
+                    </div>
+                    <button type="submit" class="btn btn-primary">申请加入！</button>
+                  </div>
+                  <div class="col-md-5">
+                    <ul class="list-unstyled address-container">
+                      <li>
+                        <span class="fa-icon">
+                          <i class="fa fa-phone" aria-hidden="true"></i>
+                        </span>
+                        13121003951
+                      </li>
+                      <li>
+                        <span class="fa-icon">
+                          <i class="fa fa fa-map-o" aria-hidden="true"></i>
+                        </span>
+                        首都经济贸易大学
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+ <button id="showFormBtn" class="btn btn-primary btn-fixed">留言</button>
+<form action="SubmitMessage" method="POST">
+<div id="formPopup" class="content-popup">
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <div class="table-responsive">
+        <div class="section-container-spacer">
+            <h2 class="text-center"><a id="contact">留言</a></h2>
+            <p class="text-center">有什么问题或建议？请在下面留言给我们</p>
+          </div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><label for="message">留言内容:</label></td>
+            <td><textarea class="form-control" id="message" name="message" rows="5" placeholder="请输入留言内容" required></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center">
+        <button type="button" onclick="startSpeechRecognition()">开始语音识别</button>
+        <button type="button" onclick="closeSpeechRecognition()">关闭语音识别</button>
+        <button type="submit" class="btn btn-primary">提交留言</button>
+    </div>
+  </div>
+</div>
+</form>
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+    navbarFixedTopAnimation();
+  });
+</script>
+
+<footer class="footer-container white-text-container">
+  <div class="container">
+    <div class="row">
+
+
+      <div class="col-xs-12">
+        <h3>无限帮</h3>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-7">
+            <p>Copyright &copy; 2023.Team infinite Help All rights reserved.
+            </p>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+  <script>
+    // 创建一个新的语音识别对象
+    const recognition = new webkitSpeechRecognition() || SpeechRecognition();
+
+    // 设置语音识别的语言为中文（中国）
+    recognition.lang = 'zh-CN';
+
+    // 设置语音识别为连续模式
+    recognition.continuous = true;
+
+    // 当语音识别得到结果时触发该事件
+    recognition.onresult = function(event) {
+      const transcript = event.results[event.results.length - 1][0].transcript;
+      const resultElement = document.getElementById('message');
+      resultElement.value = transcript;
+    };
+
+    // 开始语音识别
+    function startSpeechRecognition() {
+      recognition.start();
+    }
+
+    // 关闭语音识别
+    function closeSpeechRecognition() {
+      socket.emit('close', { room: 'your_room_name' });
+      recognition.stop();
+    }
+
+    // 连接到 SocketIO 服务器
+    const socket = io();
+
+    // 接收来自服务器的消息
+    socket.on('message', function(message) {
+      console.log(message);
+    });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+    navActivePage();
+    scrollRevelation('.reveal');
+  });
+</script>
+<script>
+document.getElementById("showFormBtn").addEventListener("click", function() {
+  document.getElementById("formPopup").style.display = "block";
+});
+
+document.querySelector(".close").addEventListener("click", function() {
+  document.getElementById("formPopup").style.display = "none";
+});
+</script>
+<script type="text/javascript" src="../static/main.0cf8b554.js"></script>
+</body>
+</html>

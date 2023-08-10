@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=g7QAt9mxzsaGg17idSGYeKeBbsIdFrx6"></script>
+    <script type="text/javascript" src="//mapopen.cdn.bcebos.com/github/BMapGLLib/AreaRestriction/src/AreaRestriction.min.js"></script>
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        .mapcontain {
+            width: 100%;
+            height: 100%;
+        }
+        #allmap {
+            height: 100%;
+            width: 100%;
+        }
+        #result{
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            width: 300px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: #fff;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+            border-radius: 7px;
+            z-index: 99;
+        }
+		ul li {
+        list-style: none;
+		}
+		.btn-wrap {
+			z-index: 999;
+			position: fixed;
+			bottom: 3.5rem;
+			padding: 1rem 1rem;
+			border-radius: .25rem;
+			margin: 0 auto;
+			background-color: #fff;
+			box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+		}
+		.btn {
+			width: 170px;
+			height: 50px;
+			justify-content：left
+			background-color: #fff;
+			color: rgba(27, 142, 236, 1);
+			font-size: 24px;
+			border:1px solid rgba(27, 142, 236, 1);
+			border-radius: 50px;
+			margin: 0 5px;
+			text-align: center;
+			line-height: 30px;
+		}
+		.btn:hover {
+			background-color: rgba(27, 142, 236, 0.8);
+			color: #fff;
+		}
+    </style>
+    <title>根据起点和终点经纬度驾车导航</title>
+	</head>
+	<body >
+        <div class = "info"></div>
+		<div class="mapcontain"><div id="allmap" ></div></div>
+		<div id="result">请选择订单起点、终点、途径位置</div>
+		<ul class="btn-wrap" style="z-index: 99;">
+			<li class = "btn"><a href="{{ url_for('getInfoContent') }}" title="">发货</a></li>
+		</ul>
+        <div id="resultBox" style="position: fixed; bottom: 20px; right: 20px; background-color: rgba(255, 255, 255, 0.8);">
+          <!-- 悬浮框内容 -->
+          <p>订单: {{ order }}</p>
+          <p>路径: {{ result }}</p>
+        </div>
+
+	</body>
+</html>
+	<script type="text/javascript">
+		var map = new BMapGL.Map('allmap');
+		var point = new BMapGL.Point(116.32326154016225,39.8476946144629);
+		map.centerAndZoom(point, 20);
+		map.enableScrollWheelZoom(true);
+		var point1 = new BMapGL.Point(116.32334369507706,39.84675785650978);//博学
+        var point2 = new BMapGL.Point(116.3256336341168,39.84739412873602);//校七
+        var point3 = new BMapGL.Point(116.3232707983594,39.848628023464634);//图书馆
+        var point4 = new BMapGL.Point(116.31839769601434,39.84642703411024);//华侨
+        var point5 = new BMapGL.Point(116.32187782721806,39.84628072749959);//博远
+        var point6 = new BMapGL.Point(116.32463041640787,39.84953664457256);//慎思
+        var point7= new BMapGL.Point(116.32258218955106,39.849637736432946);//诚明
+        var point8 = new BMapGL.Point(116.32393720388143,39.84914789585139);//明辨
+        var point9 = new BMapGL.Point(116.32188667338727,39.848436298240635);//校六
+        var point10 = new BMapGL.Point(116.32561264053065,39.84592113149253);//体育馆
+        var point11 = new BMapGL.Point(116.32107334336507,39.84690044539865);//校五
+        var point13 = new BMapGL.Point(116.32184431532387,39.84573503142516);//博纳
+        var point14 = new BMapGL.Point(116.32222231970302,39.847519657865476);//校二
+        var point15 = new BMapGL.Point(116.32411210512569,39.84735606193239);//校四
+        var point16 = new BMapGL.Point(116.31975645160803,39.84659626235203);//西门
+        var point18 = new BMapGL.Point(116.32067313311622,39.84636839812956);//琢玉讲堂
+        var point19 = new BMapGL.Point(116.32529648331665,39.84667354690745);//三食堂
+        var point20 = new BMapGL.Point(116.32467829389859,39.84548037444406);//南门
+        var point21 = new BMapGL.Point(116.32325017687171,39.85015938300409);//北门
+        var point22 = new BMapGL.Point(116.32529070397833,39.849609168629556);//乒羽馆
+        var point23 = new BMapGL.Point(116.32412111478568,39.84855087832673);//青春广场
+        var point24 = new BMapGL.Point(116.32203063560458,39.849726626088724);//行知楼
+        var point25 = new BMapGL.Point(116.32159042152841,39.8474852070601);//二食堂
+        var point27 = new BMapGL.Point(116.32483233092574,39.84775910063039);//澡堂
+        var point28 = new BMapGL.Point(116.32685168658844,39.84772291494489);//赛欧
+        var point29 = new BMapGL.Point(116.32322140504454,39.84931751236861);//经贸广场
+	// 创建点标记
+	var marker = new BMapGL.Marker(point);//校3
+	var marker1 = new BMapGL.Marker(point1);
+	var marker2 = new BMapGL.Marker(point2);
+	var marker3 = new BMapGL.Marker(point3);
+	var marker4 = new BMapGL.Marker(point4);
+	var marker5 = new BMapGL.Marker(point5);
+	var marker6 = new BMapGL.Marker(point6);
+	var marker7 = new BMapGL.Marker(point7);
+	var marker8 = new BMapGL.Marker(point8);
+	var marker9 = new BMapGL.Marker(point9);
+	var marker10 = new BMapGL.Marker(point10);
+	var marker11 = new BMapGL.Marker(point11);
+	var marker13 = new BMapGL.Marker(point13);
+	var marker14 = new BMapGL.Marker(point14);
+	var marker15 = new BMapGL.Marker(point15);
+	var marker16 = new BMapGL.Marker(point16);
+	var marker18 = new BMapGL.Marker(point18);
+	var marker19 = new BMapGL.Marker(point19);
+	var marker20 = new BMapGL.Marker(point20);
+	var marker21 = new BMapGL.Marker(point21);
+	var marker22 = new BMapGL.Marker(point22);
+	var marker23 = new BMapGL.Marker(point23);
+	var marker24 = new BMapGL.Marker(point24);
+	var marker25 = new BMapGL.Marker(point25);
+	var marker27 = new BMapGL.Marker(point27);
+	var marker28 = new BMapGL.Marker(point28);
+	var marker29 = new BMapGL.Marker(point29);
+	map.addOverlay(marker);
+	map.addOverlay(marker1);
+	map.addOverlay(marker2);
+	map.addOverlay(marker3);
+	map.addOverlay(marker4);
+	map.addOverlay(marker5);
+	map.addOverlay(marker6);
+	map.addOverlay(marker7);
+	map.addOverlay(marker8);
+	map.addOverlay(marker9);
+	map.addOverlay(marker10);
+	map.addOverlay(marker11);
+	map.addOverlay(marker13);
+	map.addOverlay(marker14);
+	map.addOverlay(marker15);
+	map.addOverlay(marker16);
+	map.addOverlay(marker18);
+	map.addOverlay(marker19);
+	map.addOverlay(marker20);
+	map.addOverlay(marker21);
+	map.addOverlay(marker22);
+	map.addOverlay(marker23);
+	map.addOverlay(marker24);
+	map.addOverlay(marker25);
+	map.addOverlay(marker27);
+	map.addOverlay(marker28);
+	map.addOverlay(marker29);
+
+	// 创建信息窗口
+	var opts = {
+		width: 200,
+		height: 100,
+		title: '文化中心'
+	};
+	var opts1 = {
+		width: 200,
+		height: 100,
+		title: '博学楼'
+	};
+	var opts2 = {
+		width: 200,
+		height: 100,
+		title: '校七公寓'
+	};
+	var opts3 = {
+		width: 200,
+		height: 100,
+		title: '图书馆'
+	};
+	var opts4 = {
+		width: 200,
+		height: 100,
+		title: '华侨'
+	};
+	var opts5 = {
+		width: 200,
+		height: 100,
+		title: '博远楼'
+	};
+	var opts6 = {
+		width: 200,
+		height: 100,
+		title: '慎思楼'
+	};
+	var opts7 = {
+		width: 200,
+		height: 100,
+		title: '诚明楼'
+	};
+	var opts8 = {
+		width: 200,
+		height: 100,
+		title: '明辨楼'
+	};
+	var opts9 = {
+		width: 200,
+		height: 100,
+		title: '校六'
+	};
+	var opts10 = {
+		width: 200,
+		height: 100,
+		title: '体育馆'
+	};
+	var opts11 = {
+		width: 200,
+		height: 100,
+		title: '校五'
+	};
+	var opts13 = {
+		width: 200,
+		height: 100,
+		title: '博纳楼'
+	};
+	var opts14 = {
+		width: 200,
+		height: 100,
+		title: '校二公寓'
+	};
+	var opts15 = {
+		width: 200,
+		height: 100,
+		title: '校四公寓'
+	};
+	var opts16 = {
+		width: 200,
+		height: 100,
+		title: '西门'
+	};
+	var opts18 = {
+		width: 200,
+		height: 100,
+		title: '琢玉讲堂'
+	};
+	var opts19 = {
+		width: 200,
+		height: 100,
+		title: '三食堂'
+	};
+	var opts20 = {
+		width: 200,
+		height: 100,
+		title: '南门'
+	};
+	var opts21 = {
+		width: 200,
+		height: 100,
+		title: '北门'
+	};
+	var opts22 = {
+		width: 200,
+		height: 100,
+		title: '乒羽馆'
+	};
+	var opts23 = {
+		width: 200,
+		height: 100,
+		title: '青春广场'
+	};
+	var opts24 = {
+		width: 200,
+		height: 100,
+		title: '行知楼'
+	};
+	var opts25 = {
+		width: 200,
+		height: 100,
+		title: '二食堂'
+	};
+	var opts27 = {
+		width: 200,
+		height: 100,
+		title: '澡堂'
+	};
+	var opts28 = {
+		width: 200,
+		height: 100,
+		title: '赛欧'
+	};
+	var opts29 = {
+		width: 200,
+		height: 100,
+		title: '经贸广场'
+	};
+		var infoWindow = new BMapGL.InfoWindow('学校活动发展中心', opts);
+		var infoWindow1 = new BMapGL.InfoWindow('历史悠久光鲜亮丽的教学楼', opts1);
+		var infoWindow2 = new BMapGL.InfoWindow('全校最nb的宿舍', opts2);
+		var infoWindow3 = new BMapGL.InfoWindow('早该推了重修了', opts3);
+		var infoWindow4 = new BMapGL.InfoWindow('全校最nb的学院', opts4);
+		var infoWindow5 = new BMapGL.InfoWindow('经贸大马桶', opts5);
+		var infoWindow6 = new BMapGL.InfoWindow('历史悠久的教学楼', opts6);//慎思
+		var infoWindow7 = new BMapGL.InfoWindow('历史悠久的教学楼', opts7);//诚明
+		var infoWindow8 = new BMapGL.InfoWindow('历史悠久的教学楼', opts8);//明辨
+		var infoWindow9 = new BMapGL.InfoWindow('高端的新宿舍楼', opts9);
+		var infoWindow10 = new BMapGL.InfoWindow('cuba举办地', opts10);
+		var infoWindow11 = new BMapGL.InfoWindow('落地窗经贸度假村', opts11);
+		var infoWindow13 = new BMapGL.InfoWindow('保卫处', opts13);
+		var infoWindow14 = new BMapGL.InfoWindow('历史悠久破烂不堪的宿舍楼', opts14);
+		var infoWindow15 = new BMapGL.InfoWindow('历史悠久但不破烂的宿舍楼', opts15);
+		var infoWindow16 = new BMapGL.InfoWindow('', opts16);
+		var infoWindow18 = new BMapGL.InfoWindow('电影与演讲', opts18);
+		var infoWindow19 = new BMapGL.InfoWindow('差评！', opts19);
+		var infoWindow20 = new BMapGL.InfoWindow('', opts20);
+		var infoWindow21 = new BMapGL.InfoWindow('', opts21);
+		var infoWindow22 = new BMapGL.InfoWindow('室内运动奥', opts22);
+		var infoWindow23 = new BMapGL.InfoWindow('北门的风景线', opts23);
+		var infoWindow24 = new BMapGL.InfoWindow('医院教务处', opts24);
+		var infoWindow25 = new BMapGL.InfoWindow('新晋美食天堂', opts25);
+		var infoWindow27 = new BMapGL.InfoWindow('洗澡澡', opts27);
+		var infoWindow28 = new BMapGL.InfoWindow('富哥住宅', opts28);
+		var infoWindow29 = new BMapGL.InfoWindow('游玩圣地', opts29);
+		// 点标记添加点击事件
+		marker.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow, point); // 开启信息窗口
+
+	});
+		marker1.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow1, point1); // 开启信息窗口
+
+	});
+		marker2.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow2, point2); // 开启信息窗口
+
+	});
+		marker3.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow3, point3); // 开启信息窗口
+
+	});
+		marker4.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow4, point4); // 开启信息窗口
+
+	});
+		marker5.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow5, point5); // 开启信息窗口
+
+	});
+		marker6.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow6, point6); // 开启信息窗口
+
+	});
+		marker7.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow7, point7); // 开启信息窗口
+
+	});
+		marker8.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow8, point8); // 开启信息窗口
+
+	});
+		marker9.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow9, point9); // 开启信息窗口
+
+	});
+		marker10.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow10, point10); // 开启信息窗口
+
+	});
+		marker11.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow11, point11); // 开启信息窗口
+
+	});
+		marker13.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow13, point13); // 开启信息窗口
+
+	});
+		marker14.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow14, point14); // 开启信息窗口
+
+	});
+		marker15.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow15, point15); // 开启信息窗口
+
+	});
+		marker16.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow16, point16); // 开启信息窗口
+
+	});
+		marker18.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow18, point18); // 开启信息窗口
+
+	});
+		marker19.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow19, point19); // 开启信息窗口
+
+	});
+		marker20.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow20, point20); // 开启信息窗口
+
+	});
+		marker21.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow21, point21); // 开启信息窗口
+
+	});
+		marker22.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow22, point22); // 开启信息窗口
+
+	});
+		marker23.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow23, point23); // 开启信息窗口
+
+	});
+		marker24.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow24, point24); // 开启信息窗口
+
+	});
+		marker25.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow25, point25); // 开启信息窗口
+
+	});
+		marker27.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow27, point27); // 开启信息窗口
+
+	});
+		marker28.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow28, point28); // 开启信息窗口
+
+	});
+		marker29.addEventListener('click', function () {
+		map.openInfoWindow(infoWindow29, point29); // 开启信息窗口
+
+	});
+
+
+	 var local = new BMapGL.LocalSearch(map, {
+		renderOptions:{map: map}
+	});
+        var bound = new BMapGL.Bounds(new BMapGL.Point(116.31709632120489,39.85000932089029), new BMapGL.Point(116.32674327686182,39.845413772473215));
+        map.addOverlay(new BMapGL.Polygon([
+        new BMapGL.Point(bound.sw.lng, bound.sw.lat),
+        new BMapGL.Point(bound.sw.lng, bound.ne.lat),
+        new BMapGL.Point(bound.ne.lng, bound.ne.lat),
+        new BMapGL.Point(bound.ne.lng, bound.sw.lat)
+    ]))
+
+    try {
+        BMapGLLib.AreaRestriction.setBounds(map, bound);
+    } catch (e) {
+        alert(e);
+    }
+
+		var driving = new BMapGL.DrivingRouteLine(map, { 
+			renderOptions: { 
+				map: map, 
+				autoViewport: true,
+				enableDragging: true,
+			}
+		})
+		var driving2 = new BMapGL.DrivingRoute(map, { 
+			renderOptions: { 
+				map: map, 
+				autoViewport: true,
+			}
+		})
+
+		//var start = new BMapGL.Point(116.32563575992387,39.847342908299105);
+		//var end = new BMapGL.Point(116.32190882293129,39.84843908835162);
+		
+		//var way2 = new BMapGL.Point(116.32360515369977,39.84808046210143);
+		//var way = '39.87920464090217,116.49257333444989|39.87806279099342,116.49218746174857'
+        const pointMap = {
+          '博学楼': point1,
+          '7号公寓': point2,
+          '图书馆': point3,
+          '恭温楼': point4,
+          '博远楼': point5,
+          '慎思楼': point6,
+          '诚明楼': point7,
+          '笃行楼': point8,
+          '6号公寓': point9,
+          '体育馆': point10,
+          '敏行楼': point11,
+          '博纳楼': point13,
+          '校二': point14,
+          '3，4号公寓': point14,
+          '西门': point16,
+          '琢玉讲堂': point18,
+          '三食堂': point19,
+          '南门': point20,
+          '北门': point21,
+          '乒羽馆': point22,
+          '青春广场': point23,
+          '行知楼': point24,
+          '二食堂': point25,
+          '澡堂': point27,
+          '赛欧公寓': point28,
+          '经贸广场': point29
+        };
+
+        // 获取起始点和终点地名
+        const startLocation = '{{ start }}';
+        const endLocation = '{{ end }}';
+
+        // 根据地名获取对应的坐标点
+        const startPoint = pointMap[startLocation];
+        const endPoint = pointMap[endLocation];
+
+        // 使用起始点和终点的坐标点进行后续操作
+        console.log('起始点坐标：', startPoint);
+        console.log('终点坐标：', endPoint);
+
+        // 获取起始点和终点的坐标
+        var start = new BMapGL.Point(startPoint.lng, startPoint.lat);
+        var end = new BMapGL.Point(endPoint.lng, endPoint.lat);
+        var way1 = new BMapGL.Point(startPoint.lng, startPoint.lat);;
+        var way2 = new BMapGL.Point(endPoint.lng, endPoint.lat);
+        var startMarker = new BMapGL.Marker(start);
+        var endMarker = new BMapGL.Marker(end);
+        var way1Marker = new BMapGL.Marker(way1);
+        var way2Marker = new BMapGL.Marker(way2);
+
+        map.addOverlay(startMarker);
+        map.addOverlay(endMarker);
+        map.addOverlay(way1Marker);
+        map.addOverlay(way2Marker);
+        //
+		driving.search(start, end, {
+				waypoints: [way2]
+			});
+		driving2.search(start2, end2, {
+				
+			});
+	function getInfoContent() {
+		window.location.href = "map_3.html";
+}
+	</script>

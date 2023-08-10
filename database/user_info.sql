@@ -1,0 +1,12 @@
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (2, 32021140132, '123456', '走光及', '@@2', 1, 18710250032, '刘子赫');
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (3, 32021140135, '123', '走广吉', 'zhaokangzhe@163.com', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (4, 32021140138, '123456', '走上光机', '@@2', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (5, 32021140142, '123', '15137994', 'zhaokangzhe@163.com', 1, 111, '111');
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (6, 32021140149, '123456', '走傻瓜不关机', '@@22', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (7, 320211401313, '123456', '走光及吉', '@@', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (8, 3202114013511, '123', '走广吉222', 'zhaokangzhe@163.com', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (9, 320211401351111, '123', '走广吉', 'zhaokangzhe@163.com', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (10, 111, '111', '222', '111', 1, 123412341234, '1234');
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (112, 32021140127, '123', '刘子赫', 'liuzihe@163.com', 1, 18710250032, '刘子赫');
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (113, 32021140129, '1234', 'Jack', 'lzh@163.com', NULL, NULL, NULL);
+INSERT INTO `user_info`(`seq`, `stu_id`, `password`, `username`, `email`, `Volunteer`, `phonenumber`, `name`) VALUES (114, 32021140190, '222', 'yaoxi', 'liuzihr@163.com', NULL, NULL, NULL);

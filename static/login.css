@@ -1,0 +1,71 @@
+body {background-image: url(../static/assets/images/index_background.png);background-repeat: no-repeat;background-size: cover;background-attachment:fixed;
+}/* ================================================================================== */
+/* ��¼��ʽ */
+form {
+  width: 600px;
+  height: 500px;
+  text-align: center;
+  position: absolute;
+  top: 25%;
+  left: 15%;
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 20px;
+  padding-top: 20px;
+}.login {width: 200px;height: 50px;margin: 0% auto;line-height: 50px;
+}
+form {color: whitesmoke;border: none;
+}
+.login a{font-size: 36px;color: whitesmoke;
+}
+.passWord,
+.userName,
+.button{width: 420px;margin: 0 auto;margin-top: 30px;box-sizing: border-box;
+}.passWord p,
+.userName p {color: whitesmoke;font-size: 28px;line-height: 50px;
+}#userName,
+#passWord{height: 50px;width: 320px;font-size: 24px;outline: none;padding-left: 20px;background: none;border-radius: 15px;border: 2px solid gray;
+}button {width: 320px;height: 50px;background: none;outline: none;border: 2px solid gray;border-radius: 15px;font-size: 24px;transition: all 1s;color: #00FFFF;
+}button:hover {background: rgb(175, 170, 175);color: whitesmoke;
+}
+.register {width: 300px;margin-top: 20px;display: inline-block;text-align: center;
+}.register a {color: #0000FF;font-size: 32px;text-align: center;
+}
+input{color: whitesmoke;
+}
+form.register-form {
+  text-align: center;
+  position: absolute;
+  top: 32%;
+  left: 15%;
+  margin: 0 auto;
+  margin-top: 10%;
+  border-radius: 20px;
+  padding-top: 40px;
+  background: none; /* ȥ��������ɫ */
+  display: flex; /* ���flex���� */
+  flex-direction: column; /* ��ֱ���� */
+  justify-content: center; /* ��ֱ���� */
+  align-items: center; /* ˮƽ���� */
+}
+form.register-form p {
+  color: yellow;
+  font-size: 36px;
+  line-height: 50px;
+}
+
+.register-button {
+  width: 320px;
+  height: 50px;
+  background: none;
+  outline: none;
+  border: 2px solid gray;
+  border-radius: 15px;
+  font-size: 24px;
+  transition: all 1s;
+  color: #00FFFF;
+}
+
+.register-button:hover {
+  background: rgb(175, 170, 175);
+  color: #00008b;
+}

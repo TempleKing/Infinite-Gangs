@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/normalize.css">
+    <link rel="stylesheet" href="../static/common.css">
+    <link rel="stylesheet" href="../static/login.css">
+    <title>登录页面</title>
+</head>
+<body>
+    <form action="/check_login" class="my-form" method="post">
+        <div class="login "><a>登录</a></div>
+        <div class="userName  clearfix"><p class="fl">学号:</p><input type="text" class="fr" id="userName" name = "stu_id" placeholder="请输入学号"></div>
+        <div  class="passWord  clearfix"><p class="fl">密码:</p><input type="text" class="fr" id="passWord" name = "password" placeholder="请输入密码"></div>
+        <div class="button clearfix"><button type="submit" class="fr" id="button">登录</button></div>
+    </form>
+    <form action="{{ url_for('register_page') }}" class="register-form" method="post">
+        <div class="register-form">
+            <div class="register">
+              <a style="color: #00FFFF">没有账号？点击</a>
+            </div>
+              <button class="register-button">注册</button>
+        </div>
+    </form>
+    <script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (2, 111, '0937', '博学楼', '6号公寓', '2023-06-26 16:13:18', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (3, 111, '8023', '6号公寓', '7号公寓', '2023-06-26 16:13:29', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (4, 111, '8935', '笃行楼', '敏行楼', '2023-06-26 16:13:40', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (6, 111, '1267', '南门', '三食堂', '2023-06-27 15:35:03', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (7, 111, '8149', '南门', '行知楼', '2023-06-28 11:14:00', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (8, 111, '9234', '青春广场', '北门', '2023-06-28 11:26:20', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (9, 111, '0916', '北门', '南门', '2023-06-28 16:01:25', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (10, 111, '8245', '琢玉讲堂', '敏行楼', '2023-06-29 09:20:05', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (11, 111, '8467', '南门', '琢玉讲堂', '2023-06-29 10:58:05', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (12, 111, '8956', '南门', '青春广场', '2023-06-29 10:58:15', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (14, 32021140127, '8256', '图书馆', '博学楼', '2023-06-29 14:06:48', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (15, 32021140129, '1456', '图书馆', '三食堂', '2023-06-29 14:41:12', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (16, 32021140132, '8146', '图书馆', '三食堂', '2023-06-29 15:04:41', 0, NULL);
+INSERT INTO `order_info`(`seq`, `stu_id`, `vcode`, `start`, `end`, `time`, `Vol`, `done`) VALUES (17, 32021140190, '2356', '图书馆', '博远楼', '2023-06-29 15:40:13', 0, NULL);
